@@ -1,0 +1,153 @@
+.traveler-main-input {
+  position: relative;
+}
+.traveler-main-input span {
+  position: absolute;
+  left: 100px;
+  top: 18px;
+}
+.CabBooking .traveler-main-input .fa-user {
+  position: absolute;
+  left: 16px;
+  top: 2px;
+  font-size: 18px;
+  border-right: 1px solid #eee;
+  height: 6vh;
+  padding: 0 17px 0 0px;
+  display: flex;
+  align-items: center;
+}
+.traveler-main-input .fa-user {
+  position: absolute;
+  left: 30px;
+  top: 20px;
+  font-size: 18px;
+}
+.travellers-section {
+  background: #fff;
+  display: inline-block;
+  padding: 5% 3%;
+  margin: 3%;
+  position: relative;
+  z-index: 1000000;
+  width: 122%;
+  border-radius: 5px;
+  box-shadow: 0px 0px 12px 0px #ccc;
+}
+.traveler-main-input::placeholder {
+  display: block;
+}
+.travellers-heading {
+  color: #000000;
+  font-size: 20px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+  text-align: center;
+}
+
+.travellers-section label {
+  margin-bottom: 0;
+  margin-right: 0px;
+  color: #000;
+  font-weight: 600;
+}
+.travellers-section label span {
+  color: #878787;
+  font-weight: 400;
+  font-size: 14px;
+  padding: 0;
+}
+
+.travellers-section label span .minus {
+  background: #cccccc6b;
+  padding: 10px;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  transition: 0.2s all;
+}
+.travellers-section label span .plus {
+  background: #cccccc6b;
+  padding: 10px;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  transition: 0.2s all;
+}
+.traveler-input {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #eaeaea;
+  border-radius: 5px;
+  width: 100% !important;
+  height: 44px !important;
+}
+.traveler-input input:focus-visible {
+  outline: none;
+}
+.traveler-input input[type="number"] {
+  -moz-appearance: textfield;
+}
+.traveler-input input::-webkit-outer-spin-button,
+.traveler-input input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.traveler-input .plus {
+  padding: 10px 15px;
+}
+.traveler-input .minus {
+  padding: 10px 16px;
+}
+.traveler-input .plus,
+.traveler-input .minus {
+  background: #cccccc6b;
+  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, -0.8);
+  transition: 0.2s all;
+  border: transparent;
+  border-radius: 5px;
+}
+.traveler-input input {
+  border: none;
+  justify-content: center;
+  width: 39% !important;
+  text-align: center;
+  padding: 0 !important;
+  background-color: transparent !important;
+  margin: 0 !important;
+}
+.traveller-update {
+  padding: 10px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 6px auto;
+  border-radius: 5px;
+  color: #fff;
+  background: green;
+  border: none;
+  width: 100%;
+}
+/* 
+.traveler-input .minus:active,
+.traveler-input .plus:active {
+  transform: scale(0.98);
+  box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  color: #ffffff;
+  background: #0e982d;
+} */
+
+.traveler-input :where(.minus, .plus) {
+  cursor: pointer;
+}
+.traveler-input :where(.minus, .plus):active {
+  transform: scale(0.98);
+  box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  color: #ffffff;
+  background: #0e982d;
+}
+
+.ad_cl_fn {
+  width: 40%;
+  text-align: center;
+}
+
+
