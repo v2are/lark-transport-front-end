@@ -77,8 +77,25 @@ export default function CabBooking() {
       renderAfterCalled.current = true;
     }, 3000);
   }, [reducerValue]);
+
+const [user,setuser]=useState("")
+const [userstatus,setuserstatus ]=useState("")
+
   useEffect(() => {
-    // window.scrollTo(0, 0);
+
+    localStorage.setItem("user", 1)
+    localStorage.setItem("userstatus","Verified")
+    let user=localStorage.getItem("user")
+    let userstatus = localStorage.getItem("userstatus")
+    // localStorage.clear()
+
+    if (user && userstatus) {
+     setuserstatus(userstatus)
+     setuser(user)
+    } else { 
+      setuserstatus("")
+      setuser("")
+    }
   }, []);
 
   let findDetails = mediaList;
@@ -108,7 +125,7 @@ export default function CabBooking() {
   // ==================== Check - Box - model - End ====================
   // ==================== New User - Check2- Box - model - start ====================
   const [isModalOpen2, setIsModalOpen2] = useState(false);
-
+  
   const openModal2 = () => {
     setIsModalOpen2(true);
   };
@@ -116,7 +133,8 @@ export default function CabBooking() {
   // ==================== Check2 - Box - model - End ====================
   // ==================== OTP - Check3- Box - model - start ====================
   const [isModalOpen3, setIsModalOpen3] = useState(false);
-
+  const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const [PhoneNumber,setPhoneNumber]=useState("")
   const openModal3 = () => {
     setIsModalOpen3(true);
   };
@@ -162,7 +180,7 @@ export default function CabBooking() {
       console.log(values.from);
 
       console.log(id);
-
+      setPhoneNumber("")
       axios
         .post("http://apinew.larkholidays.com/public/api/booking", {
           id: id,
@@ -177,6 +195,19 @@ export default function CabBooking() {
 
           //navigate("/Cabbooking/" + slat);
           setIsModalOpen_s(true);
+          console.log(user,userstatus)
+          if (user == 1 && userstatus == "Verified") {
+            setIsModalOpen1(true)
+    setIsModalOpen2(false);
+    setIsModalOpen3(false)
+
+          } else { 
+            setIsModalOpen1(false)
+            setIsModalOpen3(false)
+    setIsModalOpen2(true);
+
+          }
+
         })
         .catch(function (error) {
           console.log(error);
@@ -223,6 +254,8 @@ export default function CabBooking() {
 
   const handlePhoneChange = (event) => {
     const newPhone = event.target.value;
+    setPhoneNumber(newPhone)
+
     if (/^\d{0,10}$/.test(newPhone)) {
       setPhone(newPhone);
       setPhoneError("Please enter valid mobile number");
@@ -233,9 +266,11 @@ export default function CabBooking() {
 
   const handleButtonClick = () => {
     if (name && email && phone) {
+      setIsModalOpen2(false)
+      openModal3();
       // Perform any necessary actions with the form data
       // Refresh the page
-      window.location.reload();
+      // window.location.reload();
     } else {
       if (!name) setNameError("Please enter name is required.");
       if (!email) setEmailError("Please enter email_id is required.");
@@ -632,64 +667,65 @@ export default function CabBooking() {
                               isOpen={isModalOpen_s}
                               onRequestClose={() => setIsModalOpen_s(false)}
                               contentLabel="Form Submission Modal"
-                            >
-                              <div>
-                                <div className="modal2">
-                                  <div className="modal-content2">
-                                    <div className="row">
-                                      <div className="col-lg-6">
-                                        <img
-                                          className="CabBooking17"
-                                          src={CabBooking17}
-                                          alt=""
-                                        />
-                                      </div>
-                                      <div className="col-lg-6">
-                                        {/* <h2>Old User</h2> */}
-                                        <div className="form">
-                                          <form action="" id="contactsForms">
-                                            <div className="veri_form">
-                                              <label htmlFor="">
-                                                Please Enter Your Mobile Number
-                                              </label>
-                                              <br />
-                                              <i className="fa-solid fa-phone"></i>
-                                              <input
-                                                type="number"
-                                                value={name}
-                                                onChange={handleNameChange}
-                                              />
-                                              {nameError && (
-                                                <div className="error modal_error">
-                                                  {nameError}
-                                                </div>
-                                              )}
-                                            </div>
-                                          </form>
+                              >
+                                {/* ================== Get PhoneNumber========== */}
+                                {isModalOpen1 && <div>
+                                  <div className="modal2">
+                                    <div className="modal-content2">
+                                      <div className="row">
+                                        <div className="col-lg-6">
+                                          <img
+                                            className="CabBooking17"
+                                            src={CabBooking17}
+                                            alt=""
+                                          />
                                         </div>
-                                        <button
-                                          type="button"
-                                          // onClick={handleButtonClick}
-                                          className="veri_done"
-                                          onClick={openModal3}
-                                        >
-                                          Get OTP
-                                        </button>
-                                        <br />
-                                        <div className="new_user">
-                                          Don't have an account yet?
+                                        <div className="col-lg-6">
+                                          {/* <h2>Old User</h2> */}
+                                          <div className="form">
+                                            <form action="" id="contactsForms">
+                                              <div className="veri_form">
+                                                <label htmlFor="">
+                                                  Please Enter Your Mobile Number
+                                                </label>
+                                                <br />
+                                                <i className="fa-solid fa-phone"></i>
+                                                <input
+                                                  type="number"
+                                                  value={PhoneNumber}
+                                                  onChange={(e)=>setPhoneNumber(e.target.value)}
+                                                />
+                                                {nameError && (
+                                                  <div className="error modal_error">
+                                                    {nameError}
+                                                  </div>
+                                                )}
+                                              </div>
+                                            </form>
+                                          </div>
                                           <button
-                                            onClick={openModal2}
-                                            className="new-old"
+                                            type="button"
+                                            // onClick={handleButtonClick}
+                                            className="veri_done"
+                                            onClick={openModal3}
                                           >
-                                            New User
+                                            Get OTP
                                           </button>
+                                          <br />
+                                          {/* <div className="new_user">
+                                            Don't have an account yet?
+                                            <button
+                                              onClick={openModal2}
+                                              className="new-old"
+                                            >
+                                              New User
+                                            </button>
+                                          </div> */}
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              </div>
+                                </div>}
                               {/* ========================OTP verification==================== */}
                               {isModalOpen3 && (
                                 <div className="otp-verfication-section">
@@ -701,9 +737,9 @@ export default function CabBooking() {
                                           Enter the code we just send on your
                                           mobile phone
                                           <input
-                                            type="tel"
-                                            maxLength={10}
-                                            placeholder=" +91 8668867856"
+                                              type="tel"
+                                              maxLength={10}
+                                              placeholder={PhoneNumber}
                                           />
                                           <i
                                             className="fa-solid fa-pen-to-square"
@@ -755,8 +791,8 @@ export default function CabBooking() {
                                           className="CabBooking17"
                                           src={CabBooking17}
                                           alt=""
-                                        />
-                                      </div>
+                                        />  
+                                      </div>  
                                       <div className="col-lg-6 col-md-6 col-sm-12 p-0">
                                         <h2>New User</h2>
                                         <div className="form">
@@ -1530,7 +1566,7 @@ export default function CabBooking() {
                                     className="fa-solid fa-share-nodes"
                                     style={{ color: "#525050" }}
                                   ></i>
-                                  Share
+                                  Share 
                                 </button>
                                 <button>
                                   <i
