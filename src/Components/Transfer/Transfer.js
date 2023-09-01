@@ -34,7 +34,7 @@ export default function Transfer() {
   const [reducerValue, forceUpdate] = useReducer((x) => x + 1, 1);
   // console.log(id);
 
-  let API = `http://apinew.larkholidays.com/public/`;
+  let API = `${process.env.REACT_APP_API_URL}public/`;
 
   const [mediaList, setMediaList] = useState([]);
   // const cities = [];
@@ -61,8 +61,10 @@ export default function Transfer() {
   let findDetails = mediaList;
 
   const [mediaList1, setMediaList1] = useState([]);
+  const [showEmpty,setshowEmty]=useState(false)
   // const cities = [];
   const fecthApiData1 = async (city_id) => {
+    setIsLoadings(true)
     if (buttonAct != city_id) {
       setbuttonAct(city_id);
     }
@@ -71,7 +73,16 @@ export default function Transfer() {
         API + "api/countries/" + country_id + "/" + city_id
       );
       const cities = await res.json();
-      setMediaList1(cities);
+      if (0 < cities.length) {
+        setMediaList1(cities);
+        setshowEmty(false)
+        setIsLoadings(false)
+      } else { 
+        setMediaList1([])
+        setIsLoadings(false)
+        setshowEmty(true)
+
+      }
     } catch (error) {
       console.log(error);
     }
@@ -458,7 +469,7 @@ export default function Transfer() {
 
                                     <div className="al-story-hr-line"></div>
                                   </div> */}
-                                    {0<findDetails1.length ? <section
+                                    {findDetails1 && <section
                                       className={`content ${isLoadings ? "loading" : ""
                                         }`}
                                     >
@@ -502,8 +513,8 @@ export default function Transfer() {
                                           </div>
                                         </div>
                                       )}
-                                    </section>
-                                      : <span className="error-message">No Packages available</span>}
+                                    </section>}
+                                      {showEmpty&&<span className="error-message">No Packages available</span>}
                                 </div>
                               </div>
                               {/* Popular Place Section End */}

@@ -49,7 +49,7 @@ export default function CabBooking() {
   const [reducerValue, forceUpdate] = useReducer((x) => x + 1, 0);
   // console.log(id);
 
-  let API = `http://apinew.larkholidays.com/public/`;
+  let API = `${process.env.REACT_APP_API_URL}public/`;
 
   const [mediaList, setMediaList] = useState([]);
 
@@ -83,11 +83,11 @@ const [userstatus,setuserstatus ]=useState("")
 
   useEffect(() => {
 
-    localStorage.setItem("user", 1)
-    localStorage.setItem("userstatus","Verified")
+    // localStorage.setItem("user", 1)
+    // localStorage.setItem("userstatus","Verified")
     let user=localStorage.getItem("user")
     let userstatus = localStorage.getItem("userstatus")
-    // localStorage.clear()
+    localStorage.clear()
 
     if (user && userstatus) {
      setuserstatus(userstatus)
@@ -182,7 +182,7 @@ const [userstatus,setuserstatus ]=useState("")
       console.log(id);
       setPhoneNumber("")
       axios
-        .post("http://apinew.larkholidays.com/public/api/booking", {
+        .post(`${process.env.REACT_APP_API_URL}public/api/booking`, {
           id: id,
           from_pickup: values.from,
           to_drop: values.to,
