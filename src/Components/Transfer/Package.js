@@ -64,7 +64,7 @@ export default function CabSearch() {
   // console.log(inputValue);
   useEffect(() => {
     axios
-      .get("http://apinew.larkholidays.com/public/api/cities?country_id=1")
+      .get(`${process.env.REACT_APP_API_URL}public/api/cities?country_id=1`)
       .then((response) => {
         setData(response.data);
       })
@@ -74,7 +74,6 @@ export default function CabSearch() {
   }, []);
 
   const handlechange = (e) => {
-    
     const newUrl = `${
       window.location.origin
     }/Package/${e.target.value.replace(
@@ -83,7 +82,7 @@ export default function CabSearch() {
     )}/${inputValue.to_city.replace(/\s+/g, "")}?date=${
       inputValue.current_date
       }`;
-      window.history.pushState({ path: newUrl }, "", newUrl);
+     // window.history.pushState({ path: newUrl }, "", newUrl);
     setInputValue({ ...inputValue, [e.target.name]: e.target.value });
   };
 
@@ -96,7 +95,7 @@ export default function CabSearch() {
     )}/${e.target.value.replace(/\s+/g, "")}?date=${
       inputValue.current_date
       }`;
-      window.history.pushState({ path: newUrl }, "", newUrl);
+      //window.history.pushState({ path: newUrl }, "", newUrl);
     setInputValue({ ...inputValue, [e.target.name]: e.target.value });
   };
   
@@ -197,13 +196,12 @@ export default function CabSearch() {
 
     // Update URL with the new date using window.history.pushState or similar
     const formattedDate = date.toISOString().substring(0, 10);
-    console.log("from",from)
-    console.log("to",to)
-    window.history.pushState(
-      {},
-      "",
-      `/Package/${from}/${to}?date=${formattedDate}`
-    );
+
+    // window.history.pushState(
+    //   {},
+    //   "",
+    //   `/Package/${from}/${to}?date=${formattedDate}`
+    // );
   };
 
   const handleDayClick = (clickedDate) => {
@@ -283,8 +281,8 @@ export default function CabSearch() {
   const maxTotalPeople = 10;
 
   const [adults, setAdults] = useState(2);
-  const [children, setChildren] = useState(2);
-  const [infants, setInfants] = useState(2);
+  const [children, setChildren] = useState(0);
+  const [infants, setInfants] = useState(0);
   const [totalPeople, setTotalPeople] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -349,9 +347,9 @@ export default function CabSearch() {
     var routes_with_price_id = e.target.routes_with_price_id.value;
     var from_value = e.target.from.value;
     var to_value = e.target.to.value;
-
+localStorage.setItem("TravelersCount",totalPeople)
     axios
-      .post("http://apinew.larkholidays.com/public/api/booking", {
+      .post(`${process.env.REACT_APP_API_URL}public/api/booking`, {
         routes_with_price_id: routes_with_price_id,
         date: booking_date,
         from: from_value,
@@ -376,15 +374,24 @@ export default function CabSearch() {
   // const [selectedDate, setSelectedDate] = useState(new Date());
 
   // console.log(selectedDate.getDate());
-
+const [existTravellersCount,setexistTravellersCount]=useState("")
   useEffect(() => {
     // Get the date from the URL and update the state if present
     const urlSearchParams = new URLSearchParams(window.location.search);
     const dateParam = urlSearchParams.get("date");
+    if (!existTravellersCount) {
+      let total = parseInt(localStorage.getItem("TravelersCount"))
+      if (total) {
+        setTotalPeople(total)
+      } else { 
+        setTotalPeople(totalPeople)
+      }
+    }
+    
     if (dateParam) {
       setSelectedDate(new Date(dateParam));
     }
-  }, []);
+  }, [existTravellersCount]);
 
   const handleChangeDate = (date) => {
     setSelectedDate(date);
@@ -410,7 +417,7 @@ export default function CabSearch() {
   const [reducerValue, forceUpdate] = useReducer((x) => x + 1, 0);
   // console.log(id);
 
-  let API = `http://apinew.larkholidays.com/public/`;
+  let API = `${process.env.REACT_APP_API_URL}public/`;
 
   const [mediaList, setMediaList] = useState([]);
 
