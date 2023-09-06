@@ -1327,7 +1327,7 @@
   font-size: 18px;
   position: absolute;
   left: 0px;
-  top: 34px;
+  /* top: 34px; */
   border-right: 1px solid #eee;
   height: 50px;
   display: flex;
@@ -3570,4 +3570,31 @@ input::-webkit-inner-spin-button {
 .react-datepicker {
   position: relative;
   z-index: 100000 !important;
+}
+
+.selectUsersOptions{
+  margin-left: 78px !important;
+}
+.chkbox{
+  width: 2rem !important;
+  height: 2rem !important;
+}
+.form-check-input:checked{ 
+     background-color: #0e982d !important;
+border-color: #0d6821 !important;
+}
+
+.chkboxlabel{
+  margin-top: 6px !important;
+  margin-left: 5px !important;
+  font-weight: 500 !important;
+}
+
+.selectBox{
+  background: #fff;
+  width: 100%;
+  height: 50px;
+  border-radius: 2px;
+  border: 1px solid #d6d6d6;
+  padding-left: 10px;
 }

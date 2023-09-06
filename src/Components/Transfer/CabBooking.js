@@ -29,6 +29,9 @@ import OtpInput from "react-otp-input";
 import Helpcenter from "../../Components/Common/Helpcenter";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
+import { Checkbox } from 'primereact/checkbox';
+        
 export default function CabBooking() {
   const [selectedDate, setSelectedDate] = useState(null);
 
@@ -87,7 +90,7 @@ const [userstatus,setuserstatus ]=useState("")
     // localStorage.setItem("userstatus","Verified")
     let user=localStorage.getItem("user")
     let userstatus = localStorage.getItem("userstatus")
-    localStorage.clear()
+    //localStorage.clear()
 
     if (user && userstatus) {
      setuserstatus(userstatus)
@@ -466,6 +469,51 @@ const [userstatus,setuserstatus ]=useState("")
   };
 
   // Passenger Adult Children Infaunt End
+  console.log("findDetails",findDetails)
+const [fromCity,setfromCity]=useState(findDetails.from_city)
+const [toCity,settoCity]=useState(findDetails.to_city)
+  const [Airport, setAirport] = useState(true);
+  const [Hotels, setHotels] = useState(false);
+  const [Others, setOthers] = useState(false);
+
+  const CheckboxChange = (checkboxNumber) => {
+    switch (checkboxNumber) {
+      case 1:
+        setAirport(!Airport);
+        setHotels(false);
+        setOthers(false);
+        break;
+      case 2:
+        setHotels(!Hotels);
+        setAirport(false);
+        setOthers(false);
+        break;
+      case 3:
+        setOthers(!Others);
+        setHotels(false);
+        setAirport(false);
+        break;
+      default:
+        break;
+    }
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const { number } = useParams();
   return (
@@ -586,6 +634,53 @@ const [userstatus,setuserstatus ]=useState("")
                       >
                         <h6>Passenger Details</h6>
 
+                          <div className="selectUsersOptions">
+                        <p>Pick-up and drop-off details</p>
+                                
+                        <form>
+            <div className="form-group">
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input chkbox"
+                  type="checkbox"
+                  id=" Airport"
+                  checked={Airport}
+                  onChange={() => CheckboxChange(1)}
+                />
+                <label className="form-check-label chkboxlabel" htmlFor="  Airport">
+                  Airport
+                </label>
+              </div>
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input chkbox"
+                  type="checkbox"
+                  id="Hotels"
+                  checked={Hotels}
+                  onChange={() => CheckboxChange(2)}
+                />
+                <label className="form-check-label chkboxlabel" htmlFor="Hotels">
+                  Hotels
+                </label>
+              </div>
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input chkbox"
+                  type="checkbox"
+                  id="Others"
+                  checked={Others}
+                  onChange={() => CheckboxChange(3)}
+                />
+                <label className="form-check-label chkboxlabel" htmlFor="Others">
+                Others
+                </label>
+              </div>
+            </div>
+          </form>
+
+
+
+          </div>
                         <div
                           className="full-detail-section container"
                           id="full_detail_section"
@@ -593,13 +688,44 @@ const [userstatus,setuserstatus ]=useState("")
                           <div className="form">
                             {/* <form > */}
                             <form action="" id="contactForm">
-                              <p>Pick-up and drop-off details</p>
-                              <div>
+
+
+
+                                  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                <div>
+                                  
+
+
+
+
+
+
+
+
+
                                 <label htmlFor="">
                                   From - {findDetails.from_city}
                                 </label>
-                                <br />
-                                <i
+                                  <br />
+                                  
+                                  {Hotels  &&
+                                    <div>                                <i
                                   className="fa-sharp fa-solid fa-location-dot"
                                   style={{ color: "#797979" }}
                                 ></i>
@@ -610,7 +736,7 @@ const [userstatus,setuserstatus ]=useState("")
                                   onChange={formik.handleChange}
                                   onBlur={formik.handleBlur}
                                   className="error"
-                                  // placeholder="Enter your From"
+                                  
                                 />
                                 {formik.touched.from && formik.errors.from && (
                                   <div
@@ -625,13 +751,67 @@ const [userstatus,setuserstatus ]=useState("")
                                   >
                                     {formik.errors.from}
                                   </div>
-                                )}
-                              </div>
+                                      )}
+                                             </div>   
+                                       }
+                                  {Others  &&
+                                    <div>                                <i
+                                  className="fa-sharp fa-solid fa-location-dot"
+                                  style={{ color: "#797979" }}
+                                ></i>
+                                <input
+                                  type="text"
+                                  name="from"
+                                  value={formik.values.from}
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                  className="error"
+                                  
+                                />
+                                {formik.touched.from && formik.errors.from && (
+                                  <div
+                                    style={{
+                                      color: "red",
+                                      textAlign: "left",
+                                      marginTop: "10px",
+                                      marginLeft: "0px",
+                                      fontSize: "14px",
+                                      fontFamily: "auto",
+                                    }}
+                                  >
+                                    {formik.errors.from}
+                                  </div>
+                                      )}
+                                             </div>   
+                                       }
+                                    </div>
+                                
+
+                                 
+                                
+                                {Airport && <div class="form-group">
+                                  {/* <label for="exampleSelect">Select Airports</label> */}
+                                  <select class="form-control selectBox" id="exampleSelect">
+                                    <option>Select Airports</option>
+                                    <option>Airport 1</option>
+                                    <option>Airport 2</option>
+                                    <option>Airport 3</option>
+                                    <option>Airport 4</option>
+                                    <option>Airport 5</option>
+                                  </select>
+                                </div>
+                                }
+
+
+
+
                               <div>
                                 <label htmlFor="">
                                   To - {findDetails.to_city}
                                 </label>
-                                <br />
+                                  <br />
+                                  {Hotels  &&
+                                    <div>  
                                 <i
                                   className="fa-sharp fa-solid fa-location-dot"
                                   style={{ color: "#797979" }}
@@ -659,8 +839,58 @@ const [userstatus,setuserstatus ]=useState("")
                                   >
                                     {formik.errors.to}
                                   </div>
-                                )}
-                              </div>
+                                      )}
+                                </div>
+                                }
+                                  {Others  &&
+                                    <div>  
+                                <i
+                                  className="fa-sharp fa-solid fa-location-dot"
+                                  style={{ color: "#797979" }}
+                                ></i>
+                                <input
+                                  type="text"
+                                  name="to"
+                                  value={formik.values.to}
+                                  onChange={formik.handleChange}
+                                  onBlur={formik.handleBlur}
+                                  className="error"
+
+                                  // placeholder="Enter your To"
+                                />
+                                {formik.touched.to && formik.errors.to && (
+                                  <div
+                                    style={{
+                                      color: "red",
+                                      textAlign: "left",
+                                      marginTop: "10px",
+                                      marginLeft: "0px",
+                                      fontSize: "14px",
+                                      fontFamily: "auto",
+                                    }}
+                                  >
+                                    {formik.errors.to}
+                                  </div>
+                                      )}
+                                </div>
+                                }
+                                </div>
+                                
+                                {Airport && <div class="form-group">
+                                  {/* <label for="exampleSelect">Select Airports</label> */}
+                                  <select class="form-control selectBox" id="exampleSelect">
+                                    <option>Select Airports</option>
+                                    <option>Airport 1</option>
+                                    <option>Airport 2</option>
+                                    <option>Airport 3</option>
+                                    <option>Airport 4</option>
+                                    <option>Airport 5</option>
+                                  </select>
+                                </div>
+                                }
+
+
+
                               <br />
                             </form>
                             <Modal
@@ -883,6 +1113,7 @@ const [userstatus,setuserstatus ]=useState("")
                         </div>
                       </div>
 
+                        {Airport&&
                       <div className="transfer-details">
                         <h6>Trip from Suvarnabhumi Airport to Pattaya Town</h6>
                         <div className="full-detail-sections Trip_from_Suvarnabhumi">
@@ -1103,7 +1334,7 @@ const [userstatus,setuserstatus ]=useState("")
                           </div>
                         </div>
                       </div>
-
+                    }
                       <div className="transfer-details">
                         <h6>Cancellation Policy</h6>
                         <div className="full-detail-section Cancellation-Policy">
