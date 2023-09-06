@@ -1,4 +1,13 @@
 import React, { useEffect, useState, useReducer, useRef } from "react";
+
+import { Calendar } from 'primereact/calendar';
+        
+//theme
+import "primereact/resources/themes/lara-light-indigo/theme.css";     
+    
+//core
+import "primereact/resources/primereact.min.css";                                       
+        
 import axios from "axios";
 import "../../Css/App.css";
 import Navbar from "../../Components/Common/Navbar";
@@ -107,6 +116,14 @@ export default function CabSearch() {
   ]);
 
   const handleSubmitt = () => {
+    localStorage.setItem("TravelersCount", totalPeople)
+    
+    console.log(adults,children,infants)
+    localStorage.setItem("adults", adults);
+    localStorage.setItem("children", children);
+    localStorage.setItem("infants", infants);
+    localStorage.setItem("totalPeople", totalPeople);
+    
     const newUrl = `${
       window.location.origin
     }/Package/${inputValue.from_city.replace(
@@ -180,8 +197,13 @@ export default function CabSearch() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-
+  const [date, setDate] = useState(null);
   const handleDateChange = (date) => {
+    // setDate(d.value)
+    // console.log("date", date,d.value)
+    // alert("called",date)
+
+    // let da
     const diffInDays = Math.floor(
       (date - selectedDate) / (1000 * 60 * 60 * 24)
     );
@@ -205,8 +227,6 @@ export default function CabSearch() {
   };
 
   const handleDayClick = (clickedDate) => {
-    // alert("clickedDate",clickedDate)
-    // console.log("clickedDate",clickedDate)
     const diffInDays = Math.floor(
       (clickedDate - selectedDate) / (1000 * 60 * 24 * 60)
     );
@@ -234,11 +254,11 @@ export default function CabSearch() {
     );
 
 
-    // window.history.pushState(
-    //   {},
-    //   "",
-    //   `/Package/${from}/${to}?date=${formattedDate}`
-    // );
+    window.history.pushState(
+      {},
+      "",
+      `/Package/${from}/${to}?date=${formattedDate}`
+    );
 
   };
 
@@ -291,6 +311,7 @@ export default function CabSearch() {
     handleAdultChange(0);
     handleChildrenChange(0);
     handleInfantChange(0);
+    setexistTravellersCount("")
 
   },[])
 
@@ -343,11 +364,11 @@ export default function CabSearch() {
     e.preventDefault();
     // console.log("refresh prevented");
     // console.log(e.target.date.value);
+
     var booking_date = e.target.date.value;
     var routes_with_price_id = e.target.routes_with_price_id.value;
     var from_value = e.target.from.value;
     var to_value = e.target.to.value;
-localStorage.setItem("TravelersCount",totalPeople)
     axios
       .post(`${process.env.REACT_APP_API_URL}public/api/booking`, {
         routes_with_price_id: routes_with_price_id,
@@ -380,11 +401,20 @@ const [existTravellersCount,setexistTravellersCount]=useState("")
     const urlSearchParams = new URLSearchParams(window.location.search);
     const dateParam = urlSearchParams.get("date");
     if (!existTravellersCount) {
-      let total = parseInt(localStorage.getItem("TravelersCount"))
-      if (total) {
-        setTotalPeople(total)
+      let total =localStorage.getItem("TravelersCount")? parseInt(localStorage.getItem("TravelersCount")):null
+      console.log("total",total)
+      setexistTravellersCount(total)
+      if (total!==null) {
+        let adult=parseInt(localStorage.getItem("adults")?localStorage.getItem("adults"):adults)
+        let child=parseInt(localStorage.getItem("children") ? localStorage.getItem("children") : children)
+        let inf=parseInt(localStorage.getItem("infants")?localStorage.getItem("infants"):infants)
+        setAdults(adult)
+        setChildren(child)
+        setInfants(inf)
+        setTotalPeople(adult+child+inf)
+
       } else { 
-        setTotalPeople(totalPeople)
+        setTotalPeople(adults)
       }
     }
     
@@ -393,6 +423,8 @@ const [existTravellersCount,setexistTravellersCount]=useState("")
     }
   }, [existTravellersCount]);
 
+
+  // alert(totalPeople)s
   const handleChangeDate = (date) => {
     setSelectedDate(date);
 
@@ -837,7 +869,8 @@ return formatDate(secondNextDay)
                       </div>
                       <div className="input-group">
                         <span>
-                          <div className="centered">
+                            <div className="centered">
+      
                             <i className="fa-solid fa-calendar-days"></i>
                               <DatePicker
                                 name="date"
@@ -848,14 +881,7 @@ return formatDate(secondNextDay)
                                 placeholderText="Pick a date"
                               />
                           </div>
-                          {/* <input
-                            type="date"
-                            className="mb-3 form-control custom-select"
-                            name="current_date"
-                            value={inputValue.current_date}
-                            onChange={handlechange}
-                            min={new Date().toISOString().split("T")[0]}
-                          /> */}
+                   
                         </span>
                       </div>
 
