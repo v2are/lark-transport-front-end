@@ -30,7 +30,6 @@ import Helpcenter from "../../Components/Common/Helpcenter";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { Checkbox } from 'primereact/checkbox';
         
 export default function CabBooking() {
   const [selectedDate, setSelectedDate] = useState(null);
