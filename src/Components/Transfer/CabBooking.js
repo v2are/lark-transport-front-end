@@ -34,6 +34,14 @@ import "react-datepicker/dist/react-datepicker.css";
 export default function CabBooking() {
   const [selectedDate, setSelectedDate] = useState(null);
 
+
+  const [fromAirport, setFromAirport] = useState(true);
+  const [fromHotels, setFromHotels] = useState(false);
+  const [fromOthers, setFromOthers] = useState(false);
+
+  const [toAirport, setToAirport] = useState(true);
+  const [toHotels, setToHotels] = useState(false);
+  const [toOthers, setToOthers] = useState(false);
   // ====================  Cab - Booking - Api - Start ====================
 
   // const { from } = useParams();
@@ -155,32 +163,25 @@ const [userstatus,setuserstatus ]=useState("")
   // ==================== Form - Validation - Start ====================
   const [isModalOpen_s, setIsModalOpen_s] = useState(false);
 
-  const validationSchema = yup.object({
+  const validationSchema =toAirport || fromAirport && yup.object({
     from: yup.string().required("From field is required"),
     to: yup.string().required("To field is required"),
-    // pickup_time: yup.string().required("Pickup time field is required"),
-    // no_of_luggage: yup.string().required("Number of luggage field is required"),
     airline: yup.string().required("Airline field is required"),
     air_flight_no: yup.string().required("Air flight number field is required"),
-    // flight_arrival_time: yup
-    //   .string()
-    //   .required("Flight arrival time field is required"),
   });
+
 
   const formik = useFormik({
     initialValues: {
       from: "",
       to: "",
-      // pickup_time: "",
-      // no_of_luggage: "",
       airline: "",
       air_flight_no: "",
-      // flight_arrival_time: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log(values.from);
-
+alert("clciked")
       console.log(id);
       setPhoneNumber("")
       axios
@@ -468,29 +469,50 @@ const [userstatus,setuserstatus ]=useState("")
   };
 
   // Passenger Adult Children Infaunt End
-  console.log("findDetails",findDetails)
+  //console.log("findDetails",findDetails)
 const [fromCity,setfromCity]=useState(findDetails.from_city)
-const [toCity,settoCity]=useState(findDetails.to_city)
-  const [Airport, setAirport] = useState(true);
-  const [Hotels, setHotels] = useState(false);
-  const [Others, setOthers] = useState(false);
-
-  const CheckboxChange = (checkboxNumber) => {
+  const [toCity, settoCity] = useState(findDetails.to_city)
+  
+  const CheckFromboxChange = (checkboxNumber) => {
     switch (checkboxNumber) {
       case 1:
-        setAirport(!Airport);
-        setHotels(false);
-        setOthers(false);
+        setFromAirport(!fromAirport);
+        setFromHotels(false);
+        setFromOthers(false);
         break;
       case 2:
-        setHotels(!Hotels);
-        setAirport(false);
-        setOthers(false);
+        setFromHotels(!fromHotels);
+        setFromAirport(false);
+        setFromOthers(false);
         break;
       case 3:
-        setOthers(!Others);
-        setHotels(false);
-        setAirport(false);
+        setFromOthers(!fromOthers);
+        setFromHotels(false);
+        setFromAirport(false);
+        break;
+      default:
+        break;
+    }
+  };
+
+
+
+  const CheckToboxChange = (checkboxNumber) => {
+    switch (checkboxNumber) {
+      case 1:
+        setToAirport(!toAirport);
+        setToHotels(false);
+        setToOthers(false);
+        break;
+      case 2:
+        setToHotels(!toHotels);
+        setToAirport(false);
+        setToOthers(false);
+        break;
+      case 3:
+        setToOthers(!toOthers);
+        setToHotels(false);
+        setToAirport(false);
         break;
       default:
         break;
@@ -643,8 +665,8 @@ const [toCity,settoCity]=useState(findDetails.to_city)
                   className="form-check-input chkbox"
                   type="checkbox"
                   id=" Airport"
-                  checked={Airport}
-                  onChange={() => CheckboxChange(1)}
+                  checked={fromAirport}
+                  onChange={() => CheckFromboxChange(1)}
                 />
                 <label className="form-check-label chkboxlabel" htmlFor="  Airport">
                   Airport
@@ -655,8 +677,8 @@ const [toCity,settoCity]=useState(findDetails.to_city)
                   className="form-check-input chkbox"
                   type="checkbox"
                   id="Hotels"
-                  checked={Hotels}
-                  onChange={() => CheckboxChange(2)}
+                  checked={fromHotels}
+                  onChange={() => CheckFromboxChange(2)}
                 />
                 <label className="form-check-label chkboxlabel" htmlFor="Hotels">
                   Hotels
@@ -667,8 +689,8 @@ const [toCity,settoCity]=useState(findDetails.to_city)
                   className="form-check-input chkbox"
                   type="checkbox"
                   id="Others"
-                  checked={Others}
-                  onChange={() => CheckboxChange(3)}
+                  checked={fromOthers}
+                  onChange={() => CheckFromboxChange(3)}
                 />
                 <label className="form-check-label chkboxlabel" htmlFor="Others">
                 Others
@@ -679,7 +701,8 @@ const [toCity,settoCity]=useState(findDetails.to_city)
 
 
 
-          </div>
+                          </div>
+                          
                         <div
                           className="full-detail-section container"
                           id="full_detail_section"
@@ -688,34 +711,8 @@ const [toCity,settoCity]=useState(findDetails.to_city)
                             {/* <form > */}
                             <form action="" id="contactForm">
 
-
-
-                                  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                 <div>
-                                  
-
-
-
-
-
-
-
+                             
 
 
                                 <label htmlFor="">
@@ -723,7 +720,7 @@ const [toCity,settoCity]=useState(findDetails.to_city)
                                 </label>
                                   <br />
                                   
-                                  {Hotels  &&
+                                  {fromHotels  &&
                                     <div>                                <i
                                   className="fa-sharp fa-solid fa-location-dot"
                                   style={{ color: "#797979" }}
@@ -753,7 +750,7 @@ const [toCity,settoCity]=useState(findDetails.to_city)
                                       )}
                                              </div>   
                                        }
-                                  {Others  &&
+                                  {fromOthers  &&
                                     <div>                                <i
                                   className="fa-sharp fa-solid fa-location-dot"
                                   style={{ color: "#797979" }}
@@ -788,7 +785,7 @@ const [toCity,settoCity]=useState(findDetails.to_city)
 
                                  
                                 
-                                {Airport && <div class="form-group">
+                                {fromAirport && <div class="form-group">
                                   {/* <label for="exampleSelect">Select Airports</label> */}
                                   <select class="form-control selectBox" id="exampleSelect">
                                     <option>Select Airports</option>
@@ -800,16 +797,73 @@ const [toCity,settoCity]=useState(findDetails.to_city)
                                   </select>
                                 </div>
                                 }
+                              </form>
+                              </div>
+</div>
+                                
+          <div className="selectUsersOptions">
+                                
+                        <form>
+            <div className="form-group">
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input chkbox"
+                  type="checkbox"
+                  id=" Airport"
+                  checked={toAirport}
+                  onChange={() => CheckToboxChange(1)}
+                />
+                <label className="form-check-label chkboxlabel" htmlFor="  Airport">
+                  Airport
+                </label>
+              </div>
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input chkbox"
+                  type="checkbox"
+                  id="Hotels"
+                  checked={toHotels}
+                  onChange={() => CheckToboxChange(2)}
+                />
+                <label className="form-check-label chkboxlabel" htmlFor="Hotels">
+                  Hotels
+                </label>
+              </div>
+              <div className="form-check form-check-inline">
+                <input
+                  className="form-check-input chkbox"
+                  type="checkbox"
+                  id="Others"
+                  checked={toOthers}
+                  onChange={() => CheckToboxChange(3)}
+                />
+                <label className="form-check-label chkboxlabel" htmlFor="Others">
+                Others
+                </label>
+              </div>
+            </div>
+          </form>
 
 
 
+          </div>
+
+
+
+          <div
+                          className="full-detail-section container"
+                          id="full_detail_section"
+                        >
+                          <div className="form">
+                            {/* <form > */}
+                            <form action="" id="contactForm">
 
                               <div>
                                 <label htmlFor="">
                                   To - {findDetails.to_city}
                                 </label>
                                   <br />
-                                  {Hotels  &&
+                                  {toHotels  &&
                                     <div>  
                                 <i
                                   className="fa-sharp fa-solid fa-location-dot"
@@ -841,7 +895,7 @@ const [toCity,settoCity]=useState(findDetails.to_city)
                                       )}
                                 </div>
                                 }
-                                  {Others  &&
+                                  {toOthers  &&
                                     <div>  
                                 <i
                                   className="fa-sharp fa-solid fa-location-dot"
@@ -875,7 +929,7 @@ const [toCity,settoCity]=useState(findDetails.to_city)
                                 }
                                 </div>
                                 
-                                {Airport && <div class="form-group">
+                                {toAirport && <div class="form-group">
                                   {/* <label for="exampleSelect">Select Airports</label> */}
                                   <select class="form-control selectBox" id="exampleSelect">
                                     <option>Select Airports</option>
@@ -1110,9 +1164,22 @@ const [toCity,settoCity]=useState(findDetails.to_city)
                             </Modal>
                           </div>
                         </div>
-                      </div>
+                     
+                     
+                        </div>
 
-                        {Airport&&
+                        
+
+
+
+
+
+
+
+
+
+
+                        {(fromAirport|| toAirport) &&
                       <div className="transfer-details">
                         <h6>Trip from Suvarnabhumi Airport to Pattaya Town</h6>
                         <div className="full-detail-sections Trip_from_Suvarnabhumi">
@@ -1231,7 +1298,7 @@ const [toCity,settoCity]=useState(findDetails.to_city)
 
                                     // placeholder="Enter your To"
                                   />
-                                  {formik.touched.airline &&
+                                  {fromAirport&&formik.touched.airline &&
                                     formik.errors.airline && (
                                       <div
                                         style={{
@@ -1263,7 +1330,7 @@ const [toCity,settoCity]=useState(findDetails.to_city)
 
                                     // placeholder="Enter your To"
                                   />
-                                  {formik.touched.air_flight_no &&
+                                  {toAirport&&formik.touched.air_flight_no &&
                                     formik.errors.air_flight_no && (
                                       <div
                                         style={{
